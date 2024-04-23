@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const { pool, timezone } = require('../database-setup')
-const axios = require('axios');
 
 router.get('/all', async (req, res) => {
     try {

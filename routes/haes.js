@@ -190,6 +190,45 @@ router.get('/maxHaesnummer', async (req, res) => {
     }
 });
 
+router.post('/add', async (req, res) => {
+    const { anzUmzuege, eigentuemer, haesArt, haesnummer, herstellungsdatum, istKinderhaes, anmerkungen } = req.body;
+    try {
+
+        const haes = {
+            "HaesArt": haesArt,
+            "IstKinderhaes": istKinderhaes,
+            "Haesnummer": haesnummer,
+            "Herstellungsdatum": herstellungsdatum,
+            "AnzUmzuege": anzUmzuege,
+            "Eigentuemer": eigentuemer,
+            "Anmerkungen": anmerkungen
+        };
+
+        const queryInsertHaes = `
+        INSERT INTO "Haes"(
+        "Haesnummer", "HaesArt", "IstKinderhaes", "Herstellungsdatum", "AnzUmzuege", "Anmerkungen")
+        VALUES ($1, $2, $3, $4, $5, $6) RETURNING "HaesID";`        
+    
+        const { rows } = await pool.query(queryInsertHaes, [haes.Haesnummer, haes.HaesArt, haes.IstKinderhaes, haes.Herstellungsdatum, haes.AnzUmzuege, haes.Anmerkungen]);
+        const insertedHaesID = rows[0].HaesID;
+        console.log("rows", rows)
+
+        console.log("INSERTEDHAESID", insertedHaesID)
+
+        const queryInsertEigentum = `
+        INSERT INTO "Eigentum"(
+        "Haes", "Eigentuemer")
+        VALUES ($1, $2);
+        `
+        const { rows1 } = await pool.query(queryInsertEigentum, [insertedHaesID, haes.Eigentuemer]);
+
+        return res.status(201).json({ message: 'Häs erfolgreich hinzugefügt' });
+    } catch (error) {
+        console.error('Fehler beim Hinzufügen des Häses:', error);
+        res.status(500).json({ message: 'Interner Serverfehler' });
+    }
+});
+
 function formatHaesResponse(data) {
     const formattedData = data.map(row => ({
         HaesID: row.HaesID,
