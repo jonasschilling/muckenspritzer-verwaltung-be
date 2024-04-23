@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var mitgliederRouter = require('./routes/mitglieder');
 var haesRouter = require('./routes/haes');
 var veranstaltungRouter = require('./routes/veranstaltungen');
+var eigentumRouter = require('./routes/eigentum');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use('/', indexRouter);
 app.use('/mitglieder', mitgliederRouter);
 app.use('/haes', haesRouter);
 app.use('/veranstaltungen', veranstaltungRouter);
+app.use('/eigentum', eigentumRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

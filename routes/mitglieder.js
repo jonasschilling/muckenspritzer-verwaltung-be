@@ -7,7 +7,8 @@ router.get('/all', async (req, res) => {
   try {
     const query = `
       SELECT "Mitgliedsnummer", "Name", "Vorname", "Eintrittsdatum", "Geburtsdatum", "Strasse", "Hausnummer", "Postleitzahl", "Ort", "Land" 
-      FROM "Mitglied" M`;
+      FROM "Mitglied" M
+      ORDER BY "Name", "Vorname", "Geburtsdatum"`;
     const { rows } = await pool.query(query);
 
     const mitgliederFormatted = rows.map(mitglied => {
