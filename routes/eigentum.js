@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
-const { pool, timezone } = require('../database-setup')
+const { db, timezone } = require('../database-setup.js')
 
 router.post('/add', async (req, res) => {
     const { Haes, Eigentuemer, Zeitstempel } = req.body;
     try {
         const query = `
         INSERT INTO "Eigentum"("Haes", "Eigentuemer", "Zeitstempel") VALUES ($1, $2, $3);`;
-        const { insertedRow } = await pool.query(query, [Haes, Eigentuemer, Zeitstempel]);
+        const { insertedRow } = await db.query(query, [Haes, Eigentuemer, Zeitstempel]);
 
         return res.status(201).json({ message: 'Eigentum erfolgreich aktualisiert' });
     } catch (error) {
