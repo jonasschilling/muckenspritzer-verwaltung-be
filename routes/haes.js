@@ -13,6 +13,5 @@ router.get('/spritzer/:haesnummer/history', haesController.getSpritzerHaesHistor
 router.get('/get/:haesID', haesController.getHaesByID);
 router.get('/maxhaesnummer', haesController.getMaxHaesnummer);
 router.post('/add', haesController.addHaes);
-router.post('/eigentum', haesController.addEigentum);
 
 module.exports = router;

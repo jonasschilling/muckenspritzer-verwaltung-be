@@ -1,4 +1,5 @@
 const { pool } = require('../database-setup');
+const { addEigentum } = require('./eigentum.service');
 
 function getAllHaeser(callback) {
     pool.query('SELECT * FROM `aktuelle_haesbesitzer`', (err, results, fields) => {
@@ -72,12 +73,6 @@ function addHaes(haesnummer, haesArt, istKinderhaes, herstellungsdatum, anzUmzue
     });
 }
 
-function addEigentum(haesID, eigentuemer, zeitstempel, callback) {
-    pool.query('INSERT INTO `eigentum` (Haes, Eigentuemer, Zeitstempel) VALUES (?, ?, ?)', [haesID, eigentuemer, zeitstempel], (err, results, fields) => {
-        callback(err, results, fields);
-    });
-}
-
 module.exports = {
     getAllHaeser,
     getAllMuckHaeser,
@@ -88,6 +83,5 @@ module.exports = {
     getSpritzerHaesHistoryByHaesnummer,
     getHaesByID,
     getMaxHaesnummer,
-    addHaes,
-    addEigentum
+    addHaes
 };

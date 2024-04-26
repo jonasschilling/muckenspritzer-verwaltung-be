@@ -118,19 +118,6 @@ async function addHaes(req, res) {
     });
 }
 
-async function addEigentum(req, res) {
-    const haesID = req.body.haesID;
-    const eigentuemer = req.body.eigentuemer;
-    haesService.addEigentum(haesID, eigentuemer, function (err, results, fields) {
-        if (err) {
-            console.error("Error fetching data:", err);
-            res.status(500).json({ error: 'An error occurred while fetching data.' });
-        } else {
-            res.json(results);
-        }
-    });
-}
-
 function formatHaesData(data) {
     const haesMap = new Map();
     data.forEach(entry => {
@@ -218,6 +205,5 @@ module.exports = {
     getSpritzerHaesHistoryByHaesnummer,
     getHaesByID,
     getMaxHaesnummer,
-    addHaes,
-    addEigentum
+    addHaes
 };
