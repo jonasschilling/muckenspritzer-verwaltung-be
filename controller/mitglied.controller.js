@@ -8,7 +8,6 @@ async function getAllMitglieder(req, res) {
             console.error("Error fetching data:", err);
             res.status(500).json({ error: 'An error occurred while fetching data.' });
         } else {
-            console.log(results)
             res.json(formatMitgliederData(results));
         }
     });
@@ -29,7 +28,6 @@ async function getMitgliedByMitgliedInformation(req, res) {
     const { Name, Vorname, Geburtsdatum, Eintrittsdatum, Strasse, Hausnummer, Postleitzahl, Ort, Land } = req.body;
 
     const mitglied = createMitgliedObject(Name, Vorname, Geburtsdatum, Eintrittsdatum, Strasse, Hausnummer, Postleitzahl, Ort, Land);
-    console.log(mitglied)
 
     mitgliedService.getMitgliedByMitgliedInformation(mitglied, function (err, results, fields) {
         if (err) {
@@ -68,7 +66,6 @@ async function getHaesEigentumByMitgliedInformation(req, res) {
 }
 
 async function addMitglied(req, res) {
-    console.log(req.body);
     const { name, vorname, geburtsdatum, eintrittsdatum, adresse } = req.body;
 
     const mitglied = createMitgliedObject(name, vorname, geburtsdatum, eintrittsdatum, adresse.strasse, adresse.hausnummer, adresse.postleitzahl, adresse.ort, adresse.land);
