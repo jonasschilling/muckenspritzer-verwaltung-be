@@ -12,7 +12,7 @@ const pool = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0,
     ssl: {
-        ca: fs.readFileSync('./certs/ca-certificate.crt') // Pfad zum selbstsignierten Zertifikat
+        ca: fs.readFileSync('./src/certs/ca-certificate.crt') // Pfad zum selbstsignierten Zertifikat
     }
 });
 
