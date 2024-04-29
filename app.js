@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, "0.0.0.0", () => {
-  console.log(`Muckenspritzer Verwaltung Backend running.`);
+  console.log(`Muckenspritzer Verwaltung backend listening on port ${port} .`);
 });
 
 
