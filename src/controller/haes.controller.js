@@ -1,7 +1,7 @@
 const haesService = require('../service/haes.service');
 
 function getAllHaeser(req, res) {
-    haesService.getAllHaeser(function (err, results, fields) {
+    haesService.getAllHaeser(function(err, results, fields) {
         if (err) {
             console.error("Error fetching data:", err);
             res.status(500).json({ error: 'An error occurred while fetching data.' });
@@ -12,7 +12,7 @@ function getAllHaeser(req, res) {
 }
 
 async function getAllMuckHaeser(req, res) {
-    haesService.getAllMuckHaeser(function (err, results, fields) {
+    haesService.getAllMuckHaeser(function(err, results, fields) {
         if (err) {
             console.error("Error fetching data:", err);
             res.status(500).json({ error: 'An error occurred while fetching data.' });
@@ -23,7 +23,7 @@ async function getAllMuckHaeser(req, res) {
 }
 
 async function getAllSpritzerHaeser(req, res) {
-    haesService.getAllSpritzerHaeser(function (err, results, fields) {
+    haesService.getAllSpritzerHaeser(function(err, results, fields) {
         if (err) {
             console.error("Error fetching data:", err);
             res.status(500).json({ error: 'An error occurred while fetching data.' });
@@ -35,7 +35,7 @@ async function getAllSpritzerHaeser(req, res) {
 
 async function getMuckHaesByHaesnummer(req, res) {
     const haesnummer = req.params.haesnummer;
-    haesService.getMuckHaesByHaesnummer(haesnummer, function (err, results, fields) {
+    haesService.getMuckHaesByHaesnummer(haesnummer, function(err, results, fields) {
         if (err) {
             console.error("Error fetching data:", err);
             res.status(500).json({ error: 'An error occurred while fetching data.' });
@@ -47,7 +47,7 @@ async function getMuckHaesByHaesnummer(req, res) {
 
 async function getSpritzerHaesByHaesnummer(req, res) {
     const haesnummer = req.params.haesnummer;
-    haesService.getSpritzerHaesByHaesnummer(haesnummer, function (err, results, fields) {
+    haesService.getSpritzerHaesByHaesnummer(haesnummer, function(err, results, fields) {
         if (err) {
             console.error("Error fetching data:", err);
             res.status(500).json({ error: 'An error occurred while fetching data.' });
@@ -59,7 +59,7 @@ async function getSpritzerHaesByHaesnummer(req, res) {
 
 async function getMuckHaesHistoryByHaesnummer(req, res) {
     const haesnummer = req.params.haesnummer;
-    haesService.getMuckHaesHistoryByHaesnummer(haesnummer, function (err, results, fields) {
+    haesService.getMuckHaesHistoryByHaesnummer(haesnummer, function(err, results, fields) {
         if (err) {
             console.error("Error fetching data:", err);
             res.status(500).json({ error: 'An error occurred while fetching data.' });
@@ -71,7 +71,7 @@ async function getMuckHaesHistoryByHaesnummer(req, res) {
 
 async function getSpritzerHaesHistoryByHaesnummer(req, res) {
     const haesnummer = req.params.haesnummer;
-    haesService.getSpritzerHaesHistoryByHaesnummer(haesnummer, function (err, results, fields) {
+    haesService.getSpritzerHaesHistoryByHaesnummer(haesnummer, function(err, results, fields) {
         if (err) {
             console.error("Error fetching data:", err);
             res.status(500).json({ error: 'An error occurred while fetching data.' });
@@ -83,7 +83,7 @@ async function getSpritzerHaesHistoryByHaesnummer(req, res) {
 
 async function getHaesByID(req, res) {
     const haesID = req.params.haesID;
-    haesService.getHaesByID(haesID, function (err, results, fields) {
+    haesService.getHaesByID(haesID, function(err, results, fields) {
         if (err) {
             console.error("Error fetching data:", err);
             res.status(500).json({ error: 'An error occurred while fetching data.' });
@@ -96,7 +96,7 @@ async function getHaesByID(req, res) {
 async function getMaxHaesnummer(req, res) {
     const haesArt = req.query.haesArt;
     const isKinderHaes = req.query.isKinderHaes;
-    haesService.getMaxHaesnummer(haesArt, isKinderHaes, function (err, results, fields) {
+    haesService.getMaxHaesnummer(haesArt, isKinderHaes, function(err, results, fields) {
         if (err) {
             console.error("Error fetching data:", err);
             res.status(500).json({ error: 'An error occurred while fetching data.' });
@@ -108,7 +108,7 @@ async function getMaxHaesnummer(req, res) {
 
 async function addHaes(req, res) {
     const { haesnummer, haesArt, istKinderhaes, herstellungsdatum, anzUmzuege, anmerkungen, eigentuemer } = req.body;
-    haesService.addHaes(haesnummer, haesArt, istKinderhaes, herstellungsdatum, anzUmzuege, anmerkungen, eigentuemer, function (err, results, fields) {
+    haesService.addHaes(haesnummer, haesArt, istKinderhaes, herstellungsdatum, anzUmzuege, anmerkungen, eigentuemer, function(err, results, fields) {
         if (err) {
             console.error("Error fetching data:", err);
             res.status(500).json({ error: 'An error occurred while fetching data.' });
@@ -158,7 +158,7 @@ function formatHaesHistoryResponse(response) {
 function formatHaesDataWithEigentuemerHistory(data) {
     const haesMap = new Map();
     data.forEach(entry => {
-        const { HaesID, Haesnummer, HaesArt, IstKinderhaes, Herstellungsdatum, AnzUmzuege, Anmerkungen, Mitgliedsnummer, Name, Vorname, Strasse, Hausnummer, Postleitzahl, Ort, Land, Zeitstempel } = entry;
+        const { HaesID, Haesnummer, HaesArt, IstKinderhaes, Herstellungsdatum, AnzUmzuege, Anmerkungen, Mitgliedsnummer, Name, Vorname, Strasse, Hausnummer, Postleitzahl, Ort, Land, Eigentuemer_seit } = entry;
         if (!haesMap.has(HaesID)) {
             haesMap.set(HaesID, {
                 HaesID,
@@ -171,7 +171,7 @@ function formatHaesDataWithEigentuemerHistory(data) {
                 Eigentuemer: []
             });
         }
-        
+
         haesMap.get(HaesID).Eigentuemer.push({
             Mitgliedsnummer,
             Name,
@@ -183,7 +183,7 @@ function formatHaesDataWithEigentuemerHistory(data) {
                 Ort,
                 Land
             },
-            Eigentuemer_seit: Zeitstempel
+            Eigentuemer_seit: Eigentuemer_seit
         });
     });
 
