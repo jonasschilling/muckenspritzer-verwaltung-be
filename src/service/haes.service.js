@@ -2,8 +2,15 @@ const { pool } = require('../database-setup');
 const { addEigentum } = require('./eigentum.service');
 
 function getAllHaeser(callback) {
-    pool.query('SELECT * FROM `AktuelleHaesBesitzer`', (err, results, fields) => {
-        callback(err, results, fields);
+    pool.query('SELECT * FROM `AktuelleHaesBesitzer`', async(err, results) => {
+        if (err) return callback(err, null);
+
+        try {
+            await calculateAnzUmzuege(results);
+            callback(null, results);
+        } catch (error) {
+            callback(error, null);
+        }
     });
 }
 
@@ -71,6 +78,22 @@ function addHaes(haesnummer, haesArt, istKinderhaes, herstellungsdatum, anzUmzue
             });
         }
     });
+}
+
+function calculateAnzUmzuege(results) {
+    const promises = results.map(element => {
+        return new Promise((resolve, reject) => {
+            pool.query('SELECT COUNT(*) as ActAnzUmzuege FROM `HaesUmzugsTeilnahme` WHERE HaesID = ?', [element.HaesID],
+                (err, queryResults) => {
+                    if (err) return reject(err);
+                    element.AnzUmzuege += queryResults[0].ActAnzUmzuege;
+                    resolve();
+                }
+            );
+        });
+    });
+
+    return Promise.all(promises);
 }
 
 module.exports = {
