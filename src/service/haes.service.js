@@ -51,8 +51,15 @@ function getSpritzerHaesHistoryByHaesnummer(haesnummer, callback) {
 }
 
 function getHaesByID(haesID, callback) {
-    pool.query('SELECT * FROM `AlleHaesbesitzerHistory` WHERE HaesID = ?', [haesID], (err, results, fields) => {
-        callback(err, results, fields);
+    pool.query('SELECT * FROM `AlleHaesbesitzerHistory` WHERE HaesID = ?', [haesID], async(err, results) => {
+        if (err) return callback(err, null);
+
+        try {
+            await calculateAnzUmzuege(results);
+            callback(null, results);
+        } catch (error) {
+            callback(error, null);
+        }
     });
 }
 
@@ -63,7 +70,7 @@ function getMaxHaesnummer(haesArt, isKinderHaes, callback) {
 }
 
 function addHaes(haesnummer, haesArt, istKinderhaes, herstellungsdatum, anzUmzuege, anmerkungen, eigentuemer, callback) {
-    pool.query('INSERT INTO `haes` (Haesnummer, HaesArt, IstKinderhaes, Herstellungsdatum, AnzUmzuegeBeiDBErstellung, Anmerkungen) VALUES (?, ?, ?, ?, ?, ?)', [haesnummer, haesArt, istKinderhaes, herstellungsdatum, anzUmzuege, anmerkungen], (err, results, fields) => {
+    pool.query('INSERT INTO `Haes` (Haesnummer, HaesTypID, IstKinderhaes, Herstellungsdatum, AnzUmzuegeBeiDBErstellung, Anmerkungen) VALUES (?, ?, ?, ?, ?, ?)', [haesnummer, haesArt, istKinderhaes, herstellungsdatum, anzUmzuege, anmerkungen], (err, results, fields) => {
         if (err) {
             callback(err, results, fields);
         } else {
