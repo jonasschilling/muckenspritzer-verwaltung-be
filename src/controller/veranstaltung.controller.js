@@ -1,7 +1,7 @@
 const veranstaltungService = require('../service/veranstaltung.service');
 
 function getAllVeranstaltungen(req, res) {
-    veranstaltungService.getAllVeranstaltungen(function (err, results, fields) {
+    veranstaltungService.getAllVeranstaltungen(function(err, results, fields) {
         if (err) {
             console.error("Error fetching data:", err);
             res.status(500).json({ error: 'An error occurred while fetching data.' });
@@ -13,7 +13,7 @@ function getAllVeranstaltungen(req, res) {
 
 function getVeranstaltungInformationByID(req, res) {
     const veranstaltungsID = req.params.veranstaltungsID;
-    veranstaltungService.getVeranstaltungInformationByID(veranstaltungsID, function (err, results, fields) {
+    veranstaltungService.getVeranstaltungInformationByID(veranstaltungsID, function(err, results, fields) {
         if (err) {
             console.error("Error fetching data:", err);
             res.status(500).json({ error: 'An error occurred while fetching data.' });
@@ -26,13 +26,13 @@ function getVeranstaltungInformationByID(req, res) {
 function formatVeranstaltungDetailData(data) {
     const veranstaltungenMap = new Map();
     data.forEach(entry => {
-        const { VeranstaltungsID, Ort, Datum, veranstaltungsart, HaesID, Haesart, IstKinderhaes, Haesnummer, Name, Vorname, AnzahlTeilnehmer } = entry;
+        const { VeranstaltungsID, Ort, Datum, Veranstaltungsart, HaesID, Haesart, IstKinderhaes, Haesnummer, Name, Vorname, AnzahlTeilnehmer } = entry;
         if (!veranstaltungenMap.has(VeranstaltungsID)) {
             veranstaltungenMap.set(VeranstaltungsID, {
                 VeranstaltungsID,
                 Ort,
                 Datum,
-                Veranstaltungsart: veranstaltungsart,
+                Veranstaltungsart: Veranstaltungsart,
                 AnzahlTeilnehmer,
                 Teilnehmer: []
             });
@@ -53,9 +53,32 @@ function formatVeranstaltungDetailData(data) {
     return Array.from(veranstaltungenMap.values());
 }
 
+async function addVeranstaltung(req, res) {
+    const { eventArtID, eventDate, eventPlace } = req.body;
+
+    const event = createveranstaltungObject(eventArtID, eventDate, eventPlace);
+
+    veranstaltungService.addVeranstaltung(event, function(err, results, fields) {
+        if (err) {
+            console.error("Error fetching data:", err);
+            res.status(500).json({ error: 'An error occurred while fetching data.' });
+        } else {
+            res.json(results);
+        }
+    });
+}
+
+function createveranstaltungObject(eventArtID, eventDate, eventPlace) {
+    return {
+        Datum: eventDate,
+        Ort: eventPlace,
+        VeranstaltungsArtID: eventArtID
+    };
+}
+
 
 module.exports = {
     getAllVeranstaltungen,
-    getVeranstaltungInformationByID
+    getVeranstaltungInformationByID,
+    addVeranstaltung
 }
-

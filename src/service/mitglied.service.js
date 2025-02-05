@@ -49,8 +49,6 @@ function addMitglied(Mitglied, callback) {
     pool.query(query, [Name, Vorname, Eintrittsdatum, Geburtsdatum, Adresse.Strasse, Adresse.Hausnummer, Adresse.Postleitzahl, Adresse.Ort, Adresse.Land], (err, results, fields) => {
         callback(err, results, fields);
     });
-
-
 };
 
 
