@@ -7,7 +7,7 @@ function getAllVeranstaltungen(callback) {
 }
 
 function getVeranstaltungInformationByID(veranstaltungsID, callback) {
-    pool.query('SELECT * FROM `VeranstaltungsDetails` WHERE VeranstaltungsID = ?', [veranstaltungsID], (err, results, fields) => {
+    pool.query('SELECT * FROM `HaesUmzugsTeilnahmeDetails` WHERE VeranstaltungsID = ?', [veranstaltungsID], (err, results, fields) => {
         callback(err, results, fields);
     });
 }
