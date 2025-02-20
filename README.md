@@ -1,1 +1,4 @@
-# muckenspritzer-verwaltung-be
+# Muckenspritzer-Verwaltung-BE
+
+Vereinsverwaltung der Narrenzunft Mahlstetten Backend
+
